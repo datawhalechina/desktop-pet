@@ -2,16 +2,16 @@
 
 本界面介绍了如何通过最低50元人民币左右的金额（只是估算，可能需要更多），购买一整套组件，自己搭建一个如下图所示的硬件结构，通过UWB口连接电脑，当你输入信息的时候，屏幕上会显示颜文字，并配合一些动作。
 
-![DesktopPet_demo.png](../Images/DesktopPet_demo.jpg)
+![DesktopPet_demo.png](Images/DesktopPet_demo.jpg)
 
 除此之外，你也可以再外接一个感知设备，如下图所示，增加了一个雷达测距工具（硬件成本仅增加了3块多），从而你可以通过硬件传感器感知周围的状态，并反馈给电脑。但这会导致代码逻辑非常复杂，所以本文会同时介绍如何无雷达和有雷达的两种情况。如果你对这一切都不熟悉，可以仅关注不包含雷达的版本，作为你的新手入门。
 
-![DesktopPet_demo2.png](../Images/DesktopPet_demo2.jpg)
+![DesktopPet_demo2.png](Images/DesktopPet_demo2.jpg)
 
 不加载雷达时，仅能通过电脑端交互，加载雷达后，可以基于你的手指动作进行交互~示例如下：
 
-![DesktopPet_demo.gif](../Images/DesktopPet_demo.gif)
-![DesktopPet_demo.gif2](../Images/DesktopPet_demo2.gif)
+![DesktopPet_demo.gif](Images/DesktopPet_demo.gif)
+![DesktopPet_demo.gif2](Images/DesktopPet_demo2.gif)
 
 ## 快速开始
 本项目没办法非常好的快速开始，因为你必须有一套能够配合的硬件，本章节会描述整个流程中最基本的部分。 但请不要担心，搭建桌面宠物并跑起来的过程，就像是搭积木一样，不需要你有什么经验。（如果你希望后续改造和扩展这个桌宠，我们在其他章节提供了简单的代码说明）
@@ -38,7 +38,7 @@
 
 连接树莓派Pico和电脑需要一根数据线，如果你缺少数据线可以和树莓Pico一起购买。
 
-![树莓派示意图](../Images/pico-1s.png)
+![树莓派示意图](Images/pico-1s.png)
 
 #### 云台与舵机
 直接搜索 两轴云台 或 二自由度舵机云台 即可，有打包云台和舵机一起卖的情况。价格在10~20元左右。（特别提醒：有的商家卖的散件和图示有一定出入，拼接起来不是很顺畅，但基本可以自行通过剪刀啥的修整一下）

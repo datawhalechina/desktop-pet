@@ -1,8 +1,1 @@
-- 第1章 [我是第1章的标题](chapter1/chapter1)
-- 第2章 我是第2章的标题
-    - [2.1 我是2.1的标题](chapter2/chapter2_1)
-    - [2.2 我是2.2的标题](chapter2/chapter2_2)
-- 第3章 我是第3章的标题
-    - 3.1 我是3.1的标题
-        - 3.1.1 [我是3.1.1的标题](chapter3/chapter3_1/chapter3_1_1)
-        - 3.1.2 [我是3.1.2的标题](chapter3/chapter3_1/chapter3_1_2)
+- 全教程 [基于树莓派Pico的桌面宠物](https://github.com/Liyulingyue/SimplestErniePet/tree/main/docs#%E5%9F%BA%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BEpico%E7%9A%84%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9)

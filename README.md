@@ -1,14 +1,18 @@
-# 项目名称
+# 基于文心一言和树莓派Pico的最简易桌面宠物
 
-这里写项目的各类介绍信息，例如：
+本界面介绍了如何通过最低50元人民币左右的金额（只是估算，可能需要更多），购买一整套组件，自己搭建一个如下图所示的硬件结构，通过UWB口连接电脑，当你输入信息的时候，屏幕上会显示颜文字，并配合一些动作。
 
-- 项目背景、动机等简介内容
-- 项目内容目录
-- ....
+![DesktopPet_demo.png](../Images/DesktopPet_demo.jpg)
 
-## Roadmap
+除此之外，你也可以再外接一个感知设备，如下图所示，增加了一个雷达测距工具（硬件成本仅增加了3块多），从而你可以通过硬件传感器感知周围的状态，并反馈给电脑。但这会导致代码逻辑非常复杂，所以本文会同时介绍如何无雷达和有雷达的两种情况。如果你对这一切都不熟悉，可以仅关注不包含雷达的版本，作为你的新手入门。
 
-*注：说明当前项目的规划，并将每个任务通过 Issue 形式进行对外进行发布。*
+![DesktopPet_demo2.png](../Images/DesktopPet_demo2.jpg)
+
+不加载雷达时，仅能通过电脑端交互，加载雷达后，可以基于你的手指动作进行交互~示例如下：
+
+![DesktopPet_demo.gif](../Images/DesktopPet_demo.gif)
+![DesktopPet_demo.gif2](../Images/DesktopPet_demo2.gif)
+
 
 ## 参与贡献
 
@@ -22,11 +26,8 @@
 
 | 姓名 | 职责 | 简介 |
 | :----| :---- | :---- |
-| 小明 | 项目负责人 | 小明 |
-| 小红 | 第1章贡献者 | 小明的朋友 |
-| 小强 | 第2章贡献者 | 小明的朋友 |
+| Liyulingyue | 项目负责人 | 一个擅长烂尾的开发者 |
 
-*注：表头可自定义，但必须在名单中标明项目负责人*
 
 ## 关注我们
 
@@ -38,5 +39,3 @@
 ## LICENSE
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可。
-
-*注：默认使用CC 4.0协议，也可根据自身项目情况选用其他协议*

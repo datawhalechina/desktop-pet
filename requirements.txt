@@ -1,0 +1,6 @@
+pyqt5
+pyyaml
+erniebot
+pyqt5
+matplotlib
+pyserial # for desktop pet only

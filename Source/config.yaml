@@ -1,0 +1,9 @@
+# Large language model, you can config the model used based on the following
+LLM: ernie # ernie, glm3, GRADIO, WITHOUT, if you don't need LLM, just set it to WITHOUT.
+# NOTE: if you use ernie, you just need to set ErnieToken below, and don't need to set other LLM config
+ErnieToken: 88ea362d6879c26099c527ebcf7fa601817ca10b # when LLM is ernie, use this token
+GLM3Directory: Source/Model/chatglm3-6b-ov # when LLM is glm3, use this directory
+GradioURL: http://116.62.10.217:8890/ # when LLM is GRADIO, use this URL
+
+# DesktopPet(Physical) config
+DesktopPetReceive: 1 # whether to receive DesktopPet information, 1 for yes, 0 for no

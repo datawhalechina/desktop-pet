@@ -107,9 +107,27 @@
 5. 运行 `main_PetChat.py` 文件
 6. 输入你的端口号，点击 `Connect`，输入指令，即可通过大模型输出oled屏幕想要展示的颜文字，以及两个舵机的动作。
 
+### 更换大模型
+如果你不想使用文心一言，在这里提供两种其他的大模型调用方案：
+1. 基于Openvino量化后的 GLM3 模型
+ - 根据 https://github.com/openvino-dev-samples/chatglm3.openvino 获取量化后的 GLM3 模型，并安装相关依赖
+ - 将量化后的模型拷贝到项目文件夹 `/Source/Model/chatglm3-6b-ov` 文件夹下（文件夹下包含 `openvino_model.bin`, `openvino_model.xml` 等文件）
+ - 在 `/Source/config.json` 文件中配置如下字段
+     ```json
+     LLM: glm3
+     GLM3Directory: Source/Model/chatglm3-6b-ov
+     ```
+2. 远程服务器部署
+      - 以部署Qwen2为例，参考 `https://github.com/QwenLM/Qwen` 下载相关依赖后，在远程服务器运行gradio脚本（可以参考 `/Scripts/gradio_code_qwen.py`
+      - 在 `/Source/config.json` 文件中配置如下字段
+         ```json
+         LLM: GRADIO
+         GradioURL: http://116.62.10.217:8890/ # 116.62.10.217需要改成你自己的服务器IP，8890需要改成你自己的端口号
+         ```
+
 ## 代码说明
 ### 代码结构
-本仓库并不是专门针对树莓派Pico的桌面宠物设计的，因此部分结构可能看起来费劲一点，在此特别解释：
+这个代码最开是的时候并不是专门针对树莓派Pico的桌面宠物设计的，因此部分结构可能看起来费劲一点，在此特别解释：
 1. Tools/Classes/SerialClass.py 文件是串口通信的封装，用于和树莓派Pico进行通信
 2. Tools/LLM 文件夹是使用大模型进行交互的封装
 3. Tools/Windows/petchatbox.py 是上位机界面，用于和树莓派Pico进行通信
@@ -145,3 +163,10 @@
 5. 接收到指令后，根据指令更新oled显示屏内容，并执行舵机动作
 6. 将舵机转回默认角度
 7. 循环3-6
+
+- 流程图
+![DesktopPet_workflow.png](Images/DesktopPet_workflow.png)
+
+## 开发者的展示环节
+有的开发者确实有大病，不管什么都要找个盒子装起来=w=
+![DesktopPet_Box.jpg](Images/DesktopPet_Box.jpg)

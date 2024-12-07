@@ -100,7 +100,7 @@
 ### 通过上位机+LLM控制树莓派Pico
 1. 打开设备管理器/Thonny IDE，找到树莓派Pico插入后的端口信息。
 2. 关闭Thonny IDE，重新拔插一下树莓派Pico的USB接口。
-3. Fork本仓库，修改 `Source/config.yaml` 文件中的 `LLM` 为 ernie, 修改 `ErnieToken` 为你的Token（从 https://aistudio.baidu.com/account/accessToken 获取，本仓库使用ernie3.5，应该是免费的），如果你希望使用本地/其他大模型，请参考 [README](../../README.md)
+3. Clone 本仓库，修改 `Source/config.yaml` 文件中的 `LLM` 为 ernie, 修改 `ErnieToken` 为你的Token（从 https://aistudio.baidu.com/account/accessToken 获取，本仓库使用ernie3.5，应该是免费的），如果你希望使用本地/其他大模型，请参考 [README](../../README.md)
 4. 安装requirement.txt中的库(pip install -r requirement.txt)
 5. 若你使用超声波测距模块，修改 `Source/config.yaml` 中 `DesktopPetReceive` 为1
 6. 若你不使用超声波测距模块，修改 `Source/config.yaml` 中 `DesktopPetReceive` 为0

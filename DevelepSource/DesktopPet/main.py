@@ -3,8 +3,12 @@ import utime
 import usys
 import time
 import asyncio
+import sys
+import os
 
 from ssd1306 import SSD1306_I2C
+
+from wifi_connection import connect_wifi
 
 ENABLE_SEND = True
 
@@ -40,6 +44,15 @@ def servo_move(servo, angle):
 
 # 程序入口
 if __name__ == "__main__":
+    # 连接 Wi-Fi
+    ip_address = connect_wifi()
+    if ip_address:
+        oled.fill(0)
+        oled.text("Connected:", 0, 0)
+        oled.text(ip_address, 0, 12)
+        oled.show()
+        time.sleep(2)  # 显示 IP 地址 2 秒
+
     servo_move(servo1, 90)
     servo_move(servo2, 30)
     oled.fill(0)
@@ -79,7 +92,7 @@ if __name__ == "__main__":
                     if servo_id == 1:
                         servo_move(servo1, angle)
                     elif servo_id == 2:
-                        servo_move(servo1, angle)
+                        servo_move(servo2, angle)
                     time.sleep(0.5)
                 except:
                     print("fail to run")

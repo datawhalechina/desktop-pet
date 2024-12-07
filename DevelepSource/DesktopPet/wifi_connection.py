@@ -2,8 +2,8 @@ import network
 import time
 
 # 设置 Wi-Fi SSID 和密码
-SSID = 'ziroom603'
-PASSWORD = '4001001111'
+SSID = 'wifi的名字'
+PASSWORD = 'wifi的密码'
 def connect_wifi():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)

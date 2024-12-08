@@ -79,7 +79,7 @@ if __name__ == "__main__":
                     if servo_id == 1:
                         servo_move(servo1, angle)
                     elif servo_id == 2:
-                        servo_move(servo1, angle)
+                        servo_move(servo2, angle)
                     time.sleep(0.5)
                 except:
                     print("fail to run")

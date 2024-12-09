@@ -4,6 +4,7 @@ from machine import Pin
 
 # 配置板载LED用于状态显示
 led = Pin("LED", Pin.OUT)
+# 连接WiFi
 def connect_wifi(ssid, password):
     """连接到指定的WiFi网络"""
     wlan = network.WLAN(network.STA_IF)
@@ -38,7 +39,7 @@ def connect_wifi(ssid, password):
         print('IP地址:', status[0])
         return True 
 
-
+# 处理模型响应
 def process_model_response(text, access_token):
     """处理模型响应数据"""
     from model import get_response
@@ -49,7 +50,7 @@ def process_model_response(text, access_token):
         
         if 'error_code' in response:
             print(f"API错误: {response.get('error_msg', '未知错误')}")
-            return "", []
+            return "error", []
         
         result_str = response.get('result', '')
         
@@ -71,7 +72,6 @@ def process_model_response(text, access_token):
                     for char in emotion_words:
                         if ord(char) < 128:  # 只保留ASCII字符
                             ascii_emotion += char
-                    emotion_words = ascii_emotion.split('~')[0]  # 去除~后面的内容
                 else:
                     emotion_words = ""
                     
@@ -105,8 +105,8 @@ def process_model_response(text, access_token):
                 return emotion_words, servo_angle_list
         
         print("未找到有效的JSON数据")
-        return "", []
+        return "waiting", []
             
     except Exception as e:
         print(f"处理响应失败: {e}")
-        return "", []
+        return "error", []

@@ -7,8 +7,8 @@ from model import get_response, get_access_token
 # 配置参数
 WIFI_SSID = 'TP-LINK_817'
 WIFI_PASSWORD = '123456789'
-API_KEY = "5uxjU7mOaN83mFyIeCQqo4XO"
-SECRET_KEY = "Aoovc30Klty9B3rfcvQyXw8qeDXhmMGS"
+API_KEY = "Your_API_KEY"
+SECRET_KEY = "Your_Secret_Key"
 
 # 硬件初始化
 ENABLE_SEND = True
@@ -111,9 +111,9 @@ def main():
             current_time = time.time()
             if ENABLE_SEND:
                 distance = ultrasonic.distance_cm()  # 在同一行更新
-                # 当距离变化超过阈值且距离上次请求超过3秒时发送请求
-                if (abs(distance - last_distance) > 50 and 
-                    current_time - last_request_time > 7):
+                # 当距离变化超过阈值且距离上次请求超过10秒时发送请求
+                if (abs(distance - last_distance) > 100 and 
+                    current_time - last_request_time > 10):
                     print(f"检测到距离变化: {distance}cm")
                     handle_response(str(distance), access_token, oled, servo1, servo2)
                     last_distance = distance

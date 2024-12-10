@@ -15,3 +15,15 @@
  4.注意杜邦线的使用，别傻乎乎用胶带缠住两个针（这个我真没干，但是我能想到有人可能想这么干）  
  5.LED和超声波测距布局参考作者成品  
 ![img_1.png](img_1.png)
+# 通过上位机+LLM控制树莓派Pico
+ 1.首先下载git，请移步网络查询教程  
+ 2.使用terminal或者IDE，clone本仓库到本地（你自己的电脑），这里用Pycharm举例 ，本仓库使用语言是python，所以确保你的电脑已下载安装好python3.9以上环境   
+   我们打开pycharm，点击左上角四个横线处，点击file，点击project from version control ，在弹出来的界面中，version control选git（注意要检验是否匹配成功git）    
+   接着，我们在URL处填上仓库的链接https://github.com/datawhalechina/desktop-pet/tree/main， 记住，URL下的文档目录，我们稍后会用到，点击clone，稍等片刻，它就出现在你的pycharm中  
+ 3.按照docs中的指示修改文件，修改token   
+ 4.在第二步的文档中，鼠标点右键，找到在终端打开，点进去，执行pip install -r requirements.txt，注意这个时候确保你现在所处的文件夹内有requirements.txt这个文件  
+ 5.等待安装成功，如果太慢，请使用pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple， 该命令使用清华源进行下载，亲测贼快  
+ 6.修改部分参数，运行main_PetChat.py文件   
+ 7.如果你是纯小白，在其中遇到任何未提及事项，请先复制粘贴问问ai，然后问问无所不知的群友  
+ 
+ 

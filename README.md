@@ -14,6 +14,7 @@
 ![DesktopPet_demo.gif2](./docs/Images/DesktopPet_demo2.gif)
 
 安装流程详见docs文档，如果在安装过程中出现疑问，请移步install-tips（强烈建议先看一遍再里面的注意事项再来进行连线和舵机安装！）
+
 ## 参与贡献
 
 - 如果你想参与到项目中来欢迎查看项目的 [Issue]() 查看没有被分配的任务。

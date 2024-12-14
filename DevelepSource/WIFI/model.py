@@ -19,7 +19,7 @@ system_prompt = """
 -舵机的转动角度是用于辅助表达情感的，共1号和2号两个舵机，1号控制左右，2号控制上下（所以1号可以摇头，2号可以点头，你可以同时控制1号和2号，从而达到丰富的表达，例如傲娇的情感）
 -舵机默认1号位于90度，2号位于45度，即默认是看向用户的。
 3.复杂度设置(根据距离设置)
--emotion_words：用户输入的距离比较大（大于200cm），你就应该使用更多的ascall字符创造颜文字（不少于4）
+-emotion_words：用户输入的距离比较大（大于200cm），你就应该使用更多的ascall字符创造颜文字（不少于4）,但是颜文字与英文总和长度不能超过12
 -servo_angle_list：用户输入的距离比较大（大于200cm），你就应该生成更长的序列（大于5）
 -距离较小时，颜文字和动作可以简单一些
 4. 动作与情感的匹配：
@@ -36,37 +36,6 @@ system_prompt = """
 复合动作：组合两个舵机实现更丰富的表达
 例如，惊讶时可以快速抬头（2号舵机）并左右摇头（1号舵机）
 """
-def get_response(text, access_token):
-    """获取模型响应"""
-    url = f"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k?access_token={access_token}"
-    
-    # 构造请求数据
-    data = {
-        "messages": [{"role": "user", "content": text}],
-        "system": system_prompt,
-        "top_p": 0,
-        "temperature": 0.2
-    }
-    
-    try:
-        # 使用 urequests 的原始方法
-        response = urequests.post(
-            url,
-            headers={'Content-Type': 'application/json'},
-            data=json.dumps(data).encode('utf-8')  # 显式编码为 bytes
-        )
-        
-        # 打印调试信息
-        print("响应状态:", response.status_code)
-        # 获取响应
-        result = response.json()
-        response.close()
-        return result
-        
-    except Exception as e:
-        print("请求失败:", e)
-        return {"error_code": -1, "error_msg": str(e)}
-
 def get_access_token(API_KEY, SECRET_KEY):
     """获取访问令牌"""
     url = f"https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={API_KEY}&client_secret={SECRET_KEY}"
@@ -78,7 +47,79 @@ def get_access_token(API_KEY, SECRET_KEY):
         return result.get("access_token")
     except Exception as e:
         print("获取token失败:", e)
-        return None
+        return None#多轮对话
+def get_response(text, history, access_token):
+    """获取多轮对话的模型响应也适用于单轮对话"""
+    #你可以通过更改这里url去切换百度的api模型，其他api还未了解
+    #但是更改模型之后，模型对这个系统设定（system_prompt）回复可能与现在模型有区别，你需要去修改clean_json_response函数去清理返回数据得到json字符串，可能也需要改system_prompt
+    url = f"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k?access_token={access_token}"
+    
+    # Update the prompt with the conversation history
+    messages = history.copy()
+    messages.append({"role": "user", "content": text})
+    print(messages)
+    # Construct request data
+    data = {
+        "messages": messages,
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "system": system_prompt,
+    }
+    try:
+        # Properly encode the data
+        json_data = json.dumps(data)
+        
+        # Send the request with minimal arguments
+        response = urequests.post(
+            url,
+            headers={'Content-Type': 'application/json'},
+            data=json_data.encode('utf-8')
+        )
+        
+        print("Request payload:", json_data)  # Debug the actual sent data
+        
+        # 可以将json结果转化为字典
+        #但是result是markdown格式，需要解析
+        result = response.json()
+        response.close()
+        
+        
+        return result
+        
+    except Exception as e:
+        print("请求失败:", e)
+        return {"error_code": -1, "error_msg": str(e)}
+def clean_json_response(result_str):
+    """
+    清理模型返回的JSON响应
+    Args:
+        result_str: 原始响应字符串
+    Returns:
+        cleaned_str: 清理后的JSON字符串
+    """
+    # 1. 查找JSON部分（在```json和```之间的内容）
+    start_index = result_str.find('```json\n')
+    end_index = result_str.find('\n```', start_index)
+    if start_index != -1 and end_index != -1:
+        result_str = result_str[start_index + 7:end_index]
+    
+    # 2. 移除JSON中的注释
+    result_lines = result_str.split('\n')
+    cleaned_lines = []
+    for line in result_lines:
+        comment_index = line.find('//')
+        if comment_index != -1:
+            line = line[:comment_index]
+        cleaned_lines.append(line.strip())
+    result_str = '\n'.join(cleaned_lines)
+    
+    # 3. 提取大括号内的内容
+    start_index = result_str.find('{')
+    end_index = result_str.rfind('}') + 1
+    if start_index != -1 and end_index != -1:
+        result_str = result_str[start_index:end_index]
+    
+    return result_str
 
 #if __name__ == '__main__':
 #    API_KEY = "5uxjU7mOaN83mFyIeCQqo4XO"
@@ -86,3 +127,7 @@ def get_access_token(API_KEY, SECRET_KEY):
 #    access_token = get_access_token(API_KEY,SECRET_KEY)
 #    text = "203.7"
  #   print(get_response(text, access_token))
+
+
+
+

@@ -6,12 +6,12 @@
 
 1. 确保有 GitHub 账号
 2. Fork 本项目到您的 GitHub 账户，如下
-   ![fork-button](./images/fork1.png)
-   ![fork-button](./images/fork2.png)
+   ![fork-button](./images/H_HowToContribute/fork1.png)
+   ![fork-button](./images/H_HowToContribute/fork2.png)
 3. 创建之后，去右上角点击头像，点击进入你的仓库，点进去刚刚创建的仓库，如下
-   ![fork-button](./images/fork3.png)
+   ![fork-button](./images/H_HowToContribute/fork3.png)
 3. 点击code，复制链接，如下
-   ![fork-button](./images/fork4.png)
+   ![fork-button](./images/H_HowToContribute/fork4.png)
 4. 克隆项目到本地（先下载git，然后进入一个文件夹，右键打开git bash，输入git clone 刚刚复制的链接）：
    ```bash
    git clone 刚刚复制的链接
@@ -30,20 +30,20 @@
    ```bash
    git push origin feature/your-feature-name
    ```
-![alt text](./images/anser.png)
+![alt text](./images/H_HowToContribute/anser.png)
 ## 3. 提交 Pull Request
 
 1. 在 GitHub 上打开你 fork 的仓库
 2. 点击 "Pull requests" → "New pull request"
-   ![new-pr-button](./images/new-pr-button.png)
+   ![new-pr-button](./images/H_HowToContribute/new-pr-button.png)
 3. 选择分支：
    - base: 原项目的主分支
    - compare: 你的分支
-   ![alt text](./images/select-branch.png)
+   ![alt text](./images/H_HowToContribute/select-branch.png)
 4. 填写 PR 信息：
    - 标题：简述更改内容
    - 描述：详细说明更改原因和影响
-   ![alt text](./images/create-pr.png)
+   ![alt text](./images/H_HowToContribute/create-pr.png)
 5. 点击 "Create pull request"
 
 ## 4. 后续工作

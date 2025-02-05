@@ -1,19 +1,36 @@
-# 基于文心一言和树莓派Pico的最简易桌面宠物
+# 基于树莓派Pico的简易桌面宠物
 
-本界面介绍了如何通过最低50元人民币左右的金额（只是估算，可能需要更多），购买一整套组件，自己搭建一个如下图所示的硬件结构，通过UWB口连接电脑，当你输入信息的时候，屏幕上会显示颜文字，并配合一些动作。
+> 本项目为了更好地进行展示，正在进行施工，可能会导致各个文档和代码不匹配。欢迎随时提ISSUE，作者可能会随时摆烂，欢迎随时push。
 
-![DesktopPet_demo.png](./docs/Images/DesktopPet_demo.jpg)
+本项目介绍了如何通过树莓派Pico和一些简单的硬件设备，搭建一个简易的桌面宠物。该项目旨在通过树莓派Pico的简易桌面宠物，提供一个入门级的硬件编程和嵌入式系统开发的实践指引。
+
+本项目的最低开发成本为50元人民币左右，示例如下所示。通过UWB口连接电脑，当你输入信息的时候，屏幕上会显示颜文字，并配合一些动作。
+
+![DesktopPet_demo.png](Docs/Images/01_SimplestDemo/DesktopPet_demo.jpg)
 
 除此之外，你也可以再外接一个感知设备，如下图所示，增加了一个雷达测距工具（硬件成本仅增加了3块多），从而你可以通过硬件传感器感知周围的状态，并反馈给电脑。但这会导致代码逻辑非常复杂，所以本文会同时介绍如何无雷达和有雷达的两种情况。如果你对这一切都不熟悉，可以仅关注不包含雷达的版本，作为你的新手入门。
 
-![DesktopPet_demo2.png](./docs/Images/DesktopPet_demo2.jpg)
+![DesktopPet_demo2.png](Docs/Images/01_SimplestDemo/DesktopPet_demo2.jpg)
 
 不加载雷达时，仅能通过电脑端交互，加载雷达后，可以基于你的手指动作进行交互~示例如下：
 
-![DesktopPet_demo.gif](./docs/Images/DesktopPet_demo.gif)
-![DesktopPet_demo.gif2](./docs/Images/DesktopPet_demo2.gif)
+![DesktopPet_demo.gif](Docs/Images/01_SimplestDemo/DesktopPet_demo.gif)
+![DesktopPet_demo.gif2](Docs/Images/01_SimplestDemo/DesktopPet_demo2.gif)
 
 安装流程详见docs文档，如果在安装过程中出现疑问，请移步install-tips（强烈建议先看一遍再里面的注意事项再来进行连线和舵机安装！）
+
+## 快速开始
+
+进入 docs 目录，查看项目文档。
+
+## 项目文件结构
+
+本项目的目录结构与内容如下所示，你可以在每个文件夹下找到对应的 README.md 文件，以获取更多信息。例如 Docs 目录下的 README.md 文件包含了当前目录中所有文档的内容介绍。
+
+- Codes: 存放项目代码，你可以从这里获取你需要的所有资源。
+  - LowerMachine：存放用于下位机（树莓派Pico）的代码
+  - UpperMachine：存放用于上位机（电脑端）的代码
+- Docs: 存放项目文档
 
 ## 参与贡献
 

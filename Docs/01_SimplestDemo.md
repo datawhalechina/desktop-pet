@@ -2,16 +2,16 @@
 
 本界面介绍了如何通过最低50元人民币左右的金额（只是估算，可能需要更多），购买一整套组件，自己搭建一个如下图所示的硬件结构，通过UWB口连接电脑，当你输入信息的时候，屏幕上会显示颜文字，并配合一些动作。
 
-![DesktopPet_demo.png](Images/DesktopPet_demo.jpg)
+![DesktopPet_demo.png](Images/01_SimplestDemo/DesktopPet_demo.jpg)
 
 除此之外，你也可以再外接一个感知设备，如下图所示，增加了一个雷达测距工具（硬件成本仅增加了3块多），从而你可以通过硬件传感器感知周围的状态，并反馈给电脑。但这会导致代码逻辑非常复杂，所以本文会同时介绍如何无雷达和有雷达的两种情况。如果你对这一切都不熟悉，可以仅关注不包含雷达的版本，作为你的新手入门。
 
-![DesktopPet_demo2.png](Images/DesktopPet_demo2.jpg)
+![DesktopPet_demo2.png](Images/01_SimplestDemo/DesktopPet_demo2.jpg)
 
 不加载雷达时，仅能通过电脑端交互，加载雷达后，可以基于你的手指动作进行交互~示例如下：
 
-![DesktopPet_demo.gif](Images/DesktopPet_demo.gif)
-![DesktopPet_demo.gif2](Images/DesktopPet_demo2.gif)
+![DesktopPet_demo.gif](Images/01_SimplestDemo/DesktopPet_demo.gif)
+![DesktopPet_demo.gif2](Images/01_SimplestDemo/DesktopPet_demo2.gif)
 
 ## 快速开始
 
@@ -42,11 +42,16 @@
 
 连接树莓派Pico和电脑需要一根数据线，如果你缺少数据线可以和树莓Pico一起购买。
 
-![树莓派示意图](Images/pico-1s.png)
+![树莓派示意图](Images/01_SimplestDemo/pico-1s.png)
 
 #### 云台与舵机
 
 直接搜索 两轴云台 或 二自由度舵机云台 即可，有打包云台和舵机一起卖的情况。价格在10~20元左右。（特别提醒：有的商家卖的散件和图示有一定出入，拼接起来不是很顺畅，但基本可以自行通过剪刀啥的修整一下）
+
+> - 可以从bilibili查找安装视频，部分组件可能需要需提前裁剪
+> - 安装后请检查舵机一是否能丝滑转动，若一卡一卡的，询问商家是否损坏  
+> - 安装时可能需要保证角度对齐，请勿将螺丝一次性拧到底，预留一部分调整空间
+> - 舵机的红色线是正极，棕色线是负极，橙色线是信号线 
 
 #### oled显示屏
 
@@ -60,6 +65,8 @@
 
 一块钱多一个。
 
+> 2排×5P杜邦线排针板指单个板子，它的一排是正极，一排是负极，且每一排有五个孔
+
 #### 杜邦线
 
 通常是一把起售（大约十多块钱买一把即可），平均下来0.1元一根。
@@ -68,24 +75,24 @@
 
 当我们集齐所有硬件后，先进行接线。（因为接线后可以运行一下程序，看一下硬件是否损坏），具体接线如下：
 
-| 连接的引脚1       | 连接的引脚2       | 备注  |
-| ------------ | ------------ | --- |
-| 树莓派Pico引脚2   | 超声波测距模块 Echo |     |
-| 树莓派Pico引脚3   | 超声波测距模块 Trig |     |
-| 树莓派Pico引脚4   | oled SDA     |     |
-| 树莓派Pico引脚5   | oled SCL     |     |
-| 树莓派Pico引脚6   | 舵机1信号线       |     |
-| 树莓派Pico引脚7   | 舵机2信号线       |     |
-| 树莓派Pico 5v输出 | 排针版 +        |     |
-| 树莓派Pico GND  | 排针版 -        |     |
-| 排针版 +        | oled VCC     |     |
-| 排针版 -        | oled GND     |     |
-| 排针版 +        | 舵机1 VCC      |     |
-| 排针版 -        | 舵机1 GND      |     |
-| 排针版 +        | 舵机2 VCC      |     |
-| 排针版 -        | 舵机2 GND      |     |
-| 排针板 +        | 超声波模块 VCC    |     |
-| 排针版 -        | 超声波模块 GND    |     |
+| 连接的引脚1              | 连接的引脚2       | 备注  |
+|---------------------| ------------ | --- |
+| 树莓派Pico引脚2          | 超声波测距模块 Echo |     |
+| 树莓派Pico引脚3          | 超声波测距模块 Trig |     |
+| 树莓派Pico引脚4          | oled SDA     |     |
+| 树莓派Pico引脚5          | oled SCL     |     |
+| 树莓派Pico引脚6          | 舵机1信号线       |     |
+| 树莓派Pico引脚7          | 舵机2信号线       |     |
+| 树莓派Pico 5v输出 / VBUS | 排针版 +        |     |
+| 树莓派Pico GND         | 排针版 -        |     |
+| 排针版 +               | oled VCC     |     |
+| 排针版 -               | oled GND     |     |
+| 排针版 +               | 舵机1 VCC      |     |
+| 排针版 -               | 舵机1 GND      |     |
+| 排针版 +               | 舵机2 VCC      |     |
+| 排针版 -               | 舵机2 GND      |     |
+| 排针板 +               | 超声波模块 VCC    |     |
+| 排针版 -               | 超声波模块 GND    |     |
 
 ### 运行MicroPython程序
 
@@ -115,24 +122,21 @@
 
 1. 打开设备管理器/Thonny IDE，找到树莓派Pico插入后的端口信息。
    
-   ![port number.jpg](C:\Users\29435\Desktop\desktop-pet-pr\desktop-pet\docs\Images\port%20number.jpg)
+    ![port number.jpg](Images\01_SimplestDemo\port%20number.jpg)
 2. **关闭Thonny IDE，重新拔插一下树莓派Pico的USB接口（非常重要）**。
-   
-   
-   
-   <mark>以下操作均在其他的编译软件，如PyCharm，可结合install-tips中readme文档使用 。</mark>
 3. Clone 本仓库，修改 `Source/config.yaml` 文件中的 `LLM` 为 ernie, 修改 `ErnieToken` 为你的Token（从 https://aistudio.baidu.com/account/accessToken 获取，本仓库使用ernie3.5，应该是免费的），如果你希望使用本地/其他大模型，请参考 [README](../../README.md)
-4. 安装requirements.txt中的库(pip install -r requirements.txt)
+   
+    > - 以Pycharm举例，打开pycharm，点击左上角四个横线处，点击file，点击project from version control，在弹出来的界面中，version control选git，在URL处填上仓库的链接https://github.com/datawhalechina/desktop-pet/tree/main，点击clone，稍等片刻，它就出现在你的pycharm中
+    
+4. 在控制台安装requirements.txt中的库(pip install -r requirements.txt)
 5. 若你使用超声波测距模块，修改 `Source/config.yaml` 中 `DesktopPetReceive` 为1（延迟有点高）
 6. 若你不使用超声波测距模块，修改 `Source/config.yaml` 中 `DesktopPetReceive` 为0
 7. 运行 `main_PetChat.py` 文件，会出现一个指令窗口。
    
-   
-   
-   ![DesktopPet-window.jpg](C:\Users\29435\Desktop\desktop-pet-pr\desktop-pet\docs\Images\DesktopPet-window.jpg)
+    ![DesktopPet-window.jpg](Images\01_SimplestDemo\DesktopPet-window.jpg)
 8. 输入你的端口号，点击 `Connect`，输入指令，即可通过大模型输出oled屏幕想要展示的颜文字，以及两个舵机的动作。
-
-![DesktopPet-example.jpg](C:\Users\29435\Desktop\desktop-pet-pr\desktop-pet\docs\Images\DesktopPet-example.jpg)
+   
+    ![DesktopPet-example.jpg](Images\01_SimplestDemo\DesktopPet-example.jpg)
 
 ### 更换大模型
 
@@ -208,9 +212,9 @@
 
 7. 循环3-6
 - 流程图
-  ![DesktopPet_workflow.png](Images/DesktopPet_workflow.png)
+  ![DesktopPet_workflow.png](Images/01_SimplestDemo/DesktopPet_workflow.png)
 
 ## 开发者的展示环节
 
 有的开发者确实有大病，不管什么都要找个盒子装起来=w=
-![DesktopPet_Box.jpg](Images/DesktopPet_Box.jpg)
+![DesktopPet_Box.jpg](Images/01_SimplestDemo/DesktopPet_Box.jpg)

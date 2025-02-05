@@ -1,1 +1,0 @@
-- 全教程 [基于树莓派Pico的桌面宠物](https://github.com/Liyulingyue/SimplestErniePet/tree/main/docs#%E5%9F%BA%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BEpico%E7%9A%84%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9)

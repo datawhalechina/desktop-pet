@@ -1,5 +1,12 @@
-import urequests
+import network
+import time
+from machine import Pin
 import json
+import urequests
+
+# 配置板载LED用于状态显示
+led = Pin("LED", Pin.OUT)
+
 system_prompt = """
 请根据用户输入的距离信息，生成相应的颜文字和动作响应。严格按照以下格式输出，不含其他文字：
 {
@@ -36,24 +43,27 @@ system_prompt = """
 复合动作：组合两个舵机实现更丰富的表达
 例如，惊讶时可以快速抬头（2号舵机）并左右摇头（1号舵机）
 """
+
 def get_access_token(API_KEY, SECRET_KEY):
     """获取访问令牌"""
     url = f"https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={API_KEY}&client_secret={SECRET_KEY}"
-    
+
     try:
-        response = urequests.post(url) # 添加调试信息
+        response = urequests.post(url)  # 添加调试信息
         result = response.json()
         response.close()
         return result.get("access_token")
     except Exception as e:
         print("获取token失败:", e)
-        return None#多轮对话
+        return None  # 多轮对话
+
+
 def get_response(text, history, access_token):
     """获取多轮对话的模型响应也适用于单轮对话"""
-    #你可以通过更改这里url去切换百度的api模型，其他api还未了解
-    #但是更改模型之后，模型对这个系统设定（system_prompt）回复可能与现在模型有区别，你需要去修改clean_json_response函数去清理返回数据得到json字符串，可能也需要改system_prompt
+    # 你可以通过更改这里url去切换百度的api模型，其他api还未了解
+    # 但是更改模型之后，模型对这个系统设定（system_prompt）回复可能与现在模型有区别，你需要去修改clean_json_response函数去清理返回数据得到json字符串，可能也需要改system_prompt
     url = f"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k?access_token={access_token}"
-    
+
     # Update the prompt with the conversation history
     messages = history.copy()
     messages.append({"role": "user", "content": text})
@@ -68,27 +78,28 @@ def get_response(text, history, access_token):
     try:
         # Properly encode the data
         json_data = json.dumps(data)
-        
+
         # Send the request with minimal arguments
         response = urequests.post(
             url,
             headers={'Content-Type': 'application/json'},
             data=json_data.encode('utf-8')
         )
-        
+
         print("Request payload:", json_data)  # Debug the actual sent data
-        
+
         # 可以将json结果转化为字典
-        #但是result是markdown格式，需要解析
+        # 但是result是markdown格式，需要解析
         result = response.json()
         response.close()
-        
-        
+
         return result
-        
+
     except Exception as e:
         print("请求失败:", e)
         return {"error_code": -1, "error_msg": str(e)}
+
+
 def clean_json_response(result_str):
     """
     清理模型返回的JSON响应
@@ -102,7 +113,7 @@ def clean_json_response(result_str):
     end_index = result_str.find('\n```', start_index)
     if start_index != -1 and end_index != -1:
         result_str = result_str[start_index + 7:end_index]
-    
+
     # 2. 移除JSON中的注释
     result_lines = result_str.split('\n')
     cleaned_lines = []
@@ -112,22 +123,98 @@ def clean_json_response(result_str):
             line = line[:comment_index]
         cleaned_lines.append(line.strip())
     result_str = '\n'.join(cleaned_lines)
-    
+
     # 3. 提取大括号内的内容
     start_index = result_str.find('{')
     end_index = result_str.rfind('}') + 1
     if start_index != -1 and end_index != -1:
         result_str = result_str[start_index:end_index]
-    
+
     return result_str
 
-#if __name__ == '__main__':
-#    API_KEY = "5uxjU7mOaN83mFyIeCQqo4XO"
-#    SECRET_KEY = "Aoovc30Klty9B3rfcvQyXw8qeDXhmMGS"
-#    access_token = get_access_token(API_KEY,SECRET_KEY)
-#    text = "203.7"
- #   print(get_response(text, access_token))
+# 连接WiFi
+def connect_wifi(ssid, password):
+    """连接到指定的WiFi网络"""
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
 
+    # 如果已经连接，则返回
+    if wlan.isconnected():
+        return True
+    
+    # 开始连接WiFi
+    print('正在连接WiFi...')
+    wlan.connect(ssid, password)
+    
+    # 等待连接或失败
+    max_wait = 10
+    while max_wait > 0:
+        if wlan.status() < 0 or wlan.status() >= 3:
+            break
+        max_wait -= 1
+        print('等待连接...')
+        time.sleep(1)
+    
+    # 处理连接结果
+    if wlan.status() != 3:
+        led.off()
+        print('WiFi连接失败')
+        return False
+    else:
+        led.on()
+        print('连接成功')
+        status = wlan.ifconfig()
+        print('IP地址:', status[0])
+        return True 
 
-
+def process_model_response(text, access_token, history, MULTI_TALK=False):
+    """处理模型响应数据"""
+    try:
+        response = get_response(text, history, access_token)
+        print("原始响应:", response)
+        
+        if 'error_code' in response:
+            print(f"API错误: {response.get('error_msg', '未知错误')}")
+            return "error", []
+        
+        # 提取并清理 JSON 响应
+        result_str = response.get('result', '')
+        result_str = clean_json_response(result_str)
+        print("清理后的JSON:", result_str)
+        
+        # 解析 JSON 字符串
+        result_dict = json.loads(result_str)
+        
+        # 提取情感词和舵机角度列表
+        emotion_words = result_dict.get("emotion_words", "")
+        servo_angle_list_str = result_dict.get("servo_angle_list", "")
+        
+        # 增加历史
+        if MULTI_TALK:
+            history.append({"role": "user", "content": text})
+            history.append({"role": "assistant", "content": result_str})
+        
+        # 处理舵机角度列表
+        servo_angle_list = []
+        if servo_angle_list_str:
+            pairs = [p.strip() for p in servo_angle_list_str.split(',')]
+            for pair in pairs:
+                try:
+                    if '-' in pair:
+                        servo, angle = pair.split('-')
+                        servo_num = int(servo)
+                        angle_num = int(angle)
+                        if 1 <= servo_num <= 2:
+                            servo_angle_list.append((servo_num, angle_num))
+                except ValueError:
+                    continue
+        
+        print(f"解析结果:")
+        print(f"Emotion Words: {emotion_words}")
+        print(f"Servo Angle List: {servo_angle_list}")
+        return emotion_words, servo_angle_list
+        
+    except Exception as e:
+        print(f"处理响应失败: {e}")
+        return "error", []
 

@@ -1,14 +1,14 @@
 from machine import Pin, PWM, I2C
 import time
-from wifi_utils import connect_wifi, process_model_response
+from wifi_utils import connect_wifi, process_model_response, get_response, get_access_token
 from ssd1306 import SSD1306_I2C
-from model import get_response, get_access_token
 import gc
+
 # 配置参数
 WIFI_SSID = 'TP-LINK_817'
 WIFI_PASSWORD = '123456789'
-API_KEY = "5uxjU7mOaN83mFyIeCQqo4XO"
-SECRET_KEY = "Aoovc30Klty9B3rfcvQyXw8qeDXhmMGS"
+API_KEY = "*****************"
+SECRET_KEY = "****************"
 
 #是否启用多轮对话
 MULTI_TALK = False
@@ -87,6 +87,7 @@ def handle_response(text, access_token, oled, servo1, servo2,history=[]):
         
     except Exception as e:
         print(f"处理响应失败: {e}")
+
 def show():
     """显示内存使用情况"""
     gc.collect()  # 执行垃圾回收
@@ -99,6 +100,7 @@ def show():
     print(f"已用: {alloc_mem/1024:.2f}KB")
     print(f"空闲: {free_mem/1024:.2f}KB")
     print(f"使用率: {(alloc_mem/total_mem)*100:.1f}%")
+
 def main():
     # 连接WiFi
     if not connect_wifi(WIFI_SSID, WIFI_PASSWORD):
